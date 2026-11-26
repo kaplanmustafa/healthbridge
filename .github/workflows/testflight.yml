@@ -1,0 +1,81 @@
+name: Internal TestFlight
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: healthbridge-testflight
+  cancel-in-progress: false
+jobs:
+  archive-and-upload:
+    # Release credentials never run on pull requests, forks or other branches.
+    if: github.repository == 'kaplanmustafa/healthbridge' && github.ref == 'refs/heads/main' && github.actor == 'kaplanmustafa'
+    runs-on: macos-latest
+    timeout-minutes: 30
+    environment: testflight
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify signing prerequisites and upload internal build
+        shell: bash
+        env:
+          ASC_KEY_ID: ${{ secrets.ASC_KEY_ID }}
+          ASC_ISSUER_ID: ${{ secrets.ASC_ISSUER_ID }}
+          ASC_KEY_P8: ${{ secrets.ASC_KEY_P8 }}
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APP_BUNDLE_ID: com.kaplanmustafa.healthbridge
+        run: |
+          set -euo pipefail
+          # Never enable shell xtrace or echo credentials.
+          for key in ASC_KEY_ID ASC_ISSUER_ID ASC_KEY_P8 APPLE_TEAM_ID; do
+            if [[ -z "${!key:-}" ]]; then
+              echo "::error::Missing testflight environment secret: $key"
+              exit 1
+            fi
+          done
+          [[ "$ASC_KEY_ID" =~ ^[A-Z0-9]{10}$ ]] || { echo "::error::Invalid ASC_KEY_ID format"; exit 1; }
+          [[ "$APPLE_TEAM_ID" =~ ^[A-Z0-9]{10}$ ]] || { echo "::error::Invalid APPLE_TEAM_ID format"; exit 1; }
+          [[ "$ASC_ISSUER_ID" =~ ^[a-fA-F0-9-]{36}$ ]] || { echo "::error::Invalid ASC_ISSUER_ID format"; exit 1; }
+          umask 077
+          WORK="$(mktemp -d "$RUNNER_TEMP/healthbridge-signing.XXXXXX")"
+          trap 'rm -rf "$WORK"' EXIT
+          KEY_PATH="$WORK/AuthKey_${ASC_KEY_ID}.p8"
+          printf '%s\n' "$ASC_KEY_P8" > "$KEY_PATH"
+          unset ASC_KEY_P8
+          chmod 600 "$KEY_PATH"
+          openssl pkey -in "$KEY_PATH" -noout >/dev/null
+          xcodebuild -version
+          HELP_TEXT="$(xcodebuild -help 2>&1 || true)"
+          if [[ "$HELP_TEXT" != *testFlightInternalTestingOnly* ]]; then
+            echo "::error::Installed Xcode does not advertise the internal-only export option. Refusing to upload."
+            exit 1
+          fi
+          unset HELP_TEXT
+          xcodebuild -project HealthBridge.xcodeproj -scheme HealthBridge \
+            -configuration Release -destination 'generic/platform=iOS' \
+            -archivePath "$WORK/HealthBridge.xcarchive" \
+            -derivedDataPath "$WORK/DerivedData" \
+            -allowProvisioningUpdates -authenticationKeyPath "$KEY_PATH" \
+            -authenticationKeyID "$ASC_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID" \
+            CODE_SIGN_STYLE=Automatic DEVELOPMENT_TEAM="$APPLE_TEAM_ID" \
+            PRODUCT_BUNDLE_IDENTIFIER="$APP_BUNDLE_ID" CURRENT_PROJECT_VERSION="$GITHUB_RUN_NUMBER" archive
+          # No IPA or signing material is published as a public Actions artifact.
+          cat > "$WORK/ExportOptions.plist" <<PLIST
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0"><dict>
+            <key>method</key><string>app-store-connect</string>
+            <key>destination</key><string>upload</string>
+            <key>signingStyle</key><string>automatic</string>
+            <key>teamID</key><string>$APPLE_TEAM_ID</string>
+            <key>testFlightInternalTestingOnly</key><true/>
+            <key>manageAppVersionAndBuildNumber</key><false/>
+            <key>uploadSymbols</key><true/>
+          </dict></plist>
+          PLIST
+          plutil -lint "$WORK/ExportOptions.plist"
+          xcodebuild -exportArchive -archivePath "$WORK/HealthBridge.xcarchive" \
+            -exportPath "$WORK/Export" -exportOptionsPlist "$WORK/ExportOptions.plist" \
+            -allowProvisioningUpdates -authenticationKeyPath "$KEY_PATH" \
+            -authenticationKeyID "$ASC_KEY_ID" -authenticationKeyIssuerID "$ASC_ISSUER_ID"

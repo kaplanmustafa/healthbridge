@@ -21,7 +21,7 @@ HealthBridge, Apple HealthKit'ten kullanıcının seçtiği sağlık kayıtları
 2. Xcode > Settings > Accounts bölümüne Apple Developer hesabını ekle.
 3. Sol tarafta HealthBridge projesini, sonra **HealthBridge** uygulama target'ını seç.
 4. **Signing & Capabilities** sekmesinde Automatically manage signing açık olsun. Team alanında kendi geliştirici takımını seç.
-5. Örnek Bundle Identifier `com.example.healthbridge` yerine kendi benzersiz kimliğini gir. Örnek: `com.sirketin.healthbridge`.
+5. Bundle Identifier: `com.kaplanmustafa.healthbridge`. Kendi Developer takımında bu kimliği ve HealthKit capability'sini doğrula.
 6. HealthKit capability ve `HealthBridge.entitlements` zaten projede var. Signing & Capabilities ekranında görünmesini ve seçilen App ID üzerinde etkinleşmesini doğrula.
 7. iPhone'ı bağla, gerekiyorsa iPhone'da Developer Mode'u aç, Xcode hedef cihazı olarak iPhone'ı seç.
 8. Cmd+R ile çalıştır. Uygulamada 7 günlük aralık ve istediğin türleri seç, **Verileri hazırla** düğmesine bas, Apple Sağlık izin ekranından izin ver.
@@ -31,9 +31,9 @@ Not: SwiftUI ekranlarını simulator'da inceleyebilirsin ancak kendi gerçek sa�
 
 ## 2. Windows kullanıyorsan / bulutta derleme
 
-Bu klasörü yeni **özel** GitHub deposuna yükle. `.github/workflows/ios-ci.yml` macOS runner üzerinde imzasız iOS Simulator build ve XCTest çalıştırmak üzere hazırlanmıştır. Actions sekmesinden CI'ı gözlemle. Bu workflow kurulumuna rağmen, kaynaklar bu teslimden önce Xcode/iOS SDK ile derlenemedi; macOS'ta ilk çalıştırma doğrulama adımıdır. CI simulator testleri gerçek cihaz HealthKit testlerinin yerine geçmez.
+Cloud kaynak kodu: https://github.com/kaplanmustafa/healthbridge. Depo sahibinin onayıyla public yapılandırılmıştır. Gerçek sağlık verisi veya Apple anahtarı commit etme. `.github/workflows/ios-ci.yml` macOS runner üzerinde imzasız iOS Simulator build ve XCTest çalıştırmak üzere hazırlanmıştır. Actions sekmesinden CI'ı gözlemle. Bu workflow kurulumuna rağmen, kaynaklar bu teslimden önce Xcode/iOS SDK ile derlenemedi; macOS'ta ilk çalıştırma doğrulama adımıdır. CI simulator testleri gerçek cihaz HealthKit testlerinin yerine geçmez.
 
-iPhone'a uzaktan kurulum için ayrı bir imzalı build/Archive ve TestFlight dağıtımı gereklidir. Bir Apple Developer hesabın olduğu için kendi App ID, Team, dağıtım sertifikası ve provisioning profile ile ilerleyebilirsin. Bu kaynak paket imzalı IPA değildir; Apple Developer hesabına herhangi bir erişim veya yükleme yapılmamıştır.
+iPhone'a uzaktan kurulum için ayrı bir imzalı build/Archive ve TestFlight dağıtımı gereklidir. [Mac olmadan TestFlight akışı](docs/CLOUD-TESTFLIGHT.md) hazırlanmıştır. Bir Apple Developer hesabın olduğu için kendi App ID, Team, dağıtım sertifikası ve provisioning profile ile ilerleyebilirsin. Bu kaynak paket imzalı IPA değildir; Apple Developer hesabına herhangi bir erişim veya yükleme yapılmamıştır.
 
 ## 3. Kullanım
 
