@@ -31,9 +31,9 @@ Not: SwiftUI ekranlarını simulator'da inceleyebilirsin ancak kendi gerçek sa�
 
 ## 2. Windows kullanıyorsan / bulutta derleme
 
-Cloud kaynak kodu: https://github.com/kaplanmustafa/healthbridge. Depo sahibinin onayıyla public yapılandırılmıştır. Gerçek sağlık verisi veya Apple anahtarı commit etme. `.github/workflows/ios-ci.yml` macOS runner üzerinde imzasız iOS Simulator build ve XCTest çalıştırmak üzere hazırlanmıştır. Actions sekmesinden CI'ı gözlemle. Bu workflow kurulumuna rağmen, kaynaklar bu teslimden önce Xcode/iOS SDK ile derlenemedi; macOS'ta ilk çalıştırma doğrulama adımıdır. CI simulator testleri gerçek cihaz HealthKit testlerinin yerine geçmez.
+Cloud kaynak kodu: https://github.com/kaplanmustafa/healthbridge. Depo sahibinin onayıyla public yapılandırılmıştır. Gerçek sağlık verisi veya Apple anahtarı commit etme. `.github/workflows/ios-ci.yml` macOS runner üzerinde imzasız iOS Simulator build ve XCTest çalıştırır. İki bulut derlemesi başarılıdır; son çalıştırmada Xcode 26.6 ile 7/7 XCTest başarılı olmuştur: [CI sonucu](https://github.com/kaplanmustafa/healthbridge/actions/runs/45880654306). CI simulator testleri gerçek cihaz HealthKit testlerinin yerine geçmez.
 
-iPhone'a uzaktan kurulum için ayrı bir imzalı build/Archive ve TestFlight dağıtımı gereklidir. [Mac olmadan TestFlight akışı](docs/CLOUD-TESTFLIGHT.md) hazırlanmıştır. Bir Apple Developer hesabın olduğu için kendi App ID, Team, dağıtım sertifikası ve provisioning profile ile ilerleyebilirsin. Bu kaynak paket imzalı IPA değildir; Apple Developer hesabına herhangi bir erişim veya yükleme yapılmamıştır.
+iPhone'a uzaktan kurulum için ayrı bir imzalı build/Archive ve TestFlight dağıtımı gereklidir. [Mac olmadan TestFlight akışı](docs/CLOUD-TESTFLIGHT.md) hazırlanmıştır. Bir Apple Developer hesabın olduğu için kendi App ID, Team, dağıtım sertifikası ve provisioning profile ile ilerleyebilirsin. Internal TestFlight workflow ve yalnızca main dalına izin veren GitHub environment hazırlanmıştır. Apple oturum açma başarılı olmadığı için App ID, imzalama anahtarları ve TestFlight yüklemesi henüz tamamlanmamıştır; proje henüz imzalı IPA değildir.
 
 ## 3. Kullanım
 

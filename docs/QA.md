@@ -1,12 +1,12 @@
 # Cihaz ve entegrasyon QA
 
-Teslim sırasında Linux ortamında proje yapılandırması ve kaynak tutarlılığı kontrol edilmiştir. Xcode derleme ve XCTest koşturma, Apple imzalama ve cihaz testi için macOS gerekir.
+Proje yapılandırması ve kaynak tutarlılığı kontrol edilmiş, GitHub Actions macOS runner üzerinde Xcode 26.6 ile derleme ve 7/7 XCTest başarıyla tamamlanmıştır. Apple imzalama ve gerçek cihaz testleri bekliyor.
 
 ## Xcode / CI
 
-- [ ] Proje açılıyor, app/HealthBridgeTests target ve paylaşılan scheme tanınıyor.
-- [ ] iOS Simulator build başarılı.
-- [ ] XCTest: JSON schema/zaman alanları, CSV kaçışları, formül enjeksiyonu, HTTPS zorunluluğu, izin zorunluluğu, yüzde birimi, metric ID benzersizliği.
+- [x] Proje açılıyor, app/HealthBridgeTests target ve paylaşılan scheme tanınıyor.
+- [x] iOS Simulator build başarılı.
+- [x] XCTest: JSON schema/zaman alanları, CSV kaçışları, formül enjeksiyonu, HTTPS zorunluluğu, izin zorunluluğu, yüzde birimi, metric ID benzersizliği.
 - [ ] Apple Developer takımıyla imzalama, benzersiz Bundle ID ve HealthKit capability.
 - [ ] iOS 17+ gerçek iPhone'a yükleme.
 

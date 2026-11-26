@@ -8,4 +8,11 @@ Başarılı statik kontroller:
 - Sentetik JSON örneğinin JSON Schema doğrulaması.
 - CI YAML parse ve kodda read-only HealthKit, API onay ve yönlendirme koruması.
 
-**Çalıştırılmadı:** Xcode/macOS derlemesi, XCTest, fiziksel iPhone HealthKit testi, Apple sertifika/provisioning imzalama, gerçek API aktarımı ve TestFlight. Mevcut geliştirme ortamı Linux olduğu için iOS SDK yoktu. Dahil edilen macOS GitHub Actions iş akışı ve QA kontrol listesi ile doğrulanmalıdır.
+## Bulut derleme doğrulaması
+
+- [İlk başarılı macOS CI çalıştırması](https://github.com/kaplanmustafa/healthbridge/actions/runs/45879345905).
+- [İkinci başarılı macOS CI çalıştırması](https://github.com/kaplanmustafa/healthbridge/actions/runs/45880654306): Xcode 26.6, iOS Simulator, 7/7 XCTest, 0 hata.
+- TestFlight için manuel workflow ve yalnızca main dalına izin veren environment oluşturuldu.
+- CI loglarında checkout@v4 Node.js 20 kullanımına ilişkin bir geçiş uyarısı vardır; derleme hatası değildir.
+
+**Henüz doğrulanmadı:** Fiziksel iPhone HealthKit testi, gerçek API aktarımı, Apple App ID kaydı, sertifika/provisioning imzalama ve TestFlight. Apple oturum açma başarılı olmadığından imzalı dağıtım başlatılmadı. GitHub environment içerisinde Apple imzalama secret'ları henüz tanımlanmamıştır.

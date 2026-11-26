@@ -4,6 +4,13 @@ Depo: https://github.com/kaplanmustafa/healthbridge
 
 GitHub Actions'taki `iOS CI` workflow'u standart macOS runner ile simulator derleme ve test yapar. TestFlight workflow'u ise ayrı ve yalnızca manuel olarak ve ana dalda çalışır. App Store incelemesine göndermez; yalnızca internal TestFlight yüklemesi yapmayı amaçlar.
 
+## Mevcut durum
+
+- [iOS CI](https://github.com/kaplanmustafa/healthbridge/actions/runs/45880654306) başarılı: 7/7 XCTest.
+- [Internal TestFlight workflow](https://github.com/kaplanmustafa/healthbridge/actions/workflows/testflight.yml) oluşturuldu.
+- [GitHub testflight environment](https://github.com/kaplanmustafa/healthbridge/settings/environments/28682416531/edit) oluşturuldu; yalnızca main dalına açık.
+- Apple oturumu açılamadığı için App ID, App Store Connect kaydı, imzalama secret'ları ve cihaz kurulumu bekliyor.
+
 ## Apple tarafı (hesap sahibi)
 
 1. https://developer.apple.com/account/resources/identifiers/list adresinden iOS App ID oluştur:
@@ -18,7 +25,7 @@ GitHub Actions'taki `iOS CI` workflow'u standart macOS runner ile simulator derl
    - ASC_KEY_ID
    - ASC_ISSUER_ID
    - ASC_KEY_P8 (dosyanın PEM içeriği, baş/son satırlar dahil)
-   Bu değerleri commit, issue, PR, log veya sohbet içinde paylaşma. Environment deployment branch kuralını sadece main olarak ayarla.
+   Bu değerleri commit, issue, PR, log veya sohbet içinde paylaşma. Environment deployment branch kuralı zaten sadece main olarak ayarlanmıştır; dağıtımdan önce doğrula.
 6. GitHub Actions > Internal TestFlight > Run workflow > main. Workflow, Xcode'un API anahtarıyla otomatik provisioning/dağıtım imzalamasını kullanır; Apple hesabındaki izinler ve sertifika kapasitesi buna izin vermelidir.
 7. Yükleme işlendikten sonra App Store Connect > TestFlight > Internal Testing. TestFlight iç test grubunu oluştur ve kendi Apple hesabını seç. Gerekirse export compliance sorularını yanıtla. TestFlight üzerinden iPhone'a yükle.
 
