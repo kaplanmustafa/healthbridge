@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "HealthBridge v1",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "exportedAt",
+    "rangeStart",
+    "rangeEndExclusive",
+    "selectedMetrics",
+    "timeZone",
+    "records"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "exportedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "rangeStart": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "rangeEndExclusive": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "timeZone": {
+      "type": "string"
+    },
+    "selectedMetrics": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "steps",
+          "walkingRunningDistance",
+          "cyclingDistance",
+          "activeEnergy",
+          "basalEnergy",
+          "exerciseTime",
+          "flightsClimbed",
+          "workouts",
+          "heartRate",
+          "restingHeartRate",
+          "walkingHeartRate",
+          "hrv",
+          "oxygenSaturation",
+          "respiratoryRate",
+          "systolicPressure",
+          "diastolicPressure",
+          "vo2Max",
+          "sleep",
+          "weight",
+          "bodyFat",
+          "bmi",
+          "leanBodyMass",
+          "height",
+          "waist",
+          "bodyTemperature",
+          "bloodGlucose",
+          "dietaryEnergy",
+          "protein",
+          "carbohydrates",
+          "fat",
+          "water"
+        ]
+      },
+      "uniqueItems": true,
+      "minItems": 1
+    },
+    "records": {
+      "type": "array",
+      "maxItems": 100000,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "metric": {
+            "enum": [
+              "steps",
+              "walkingRunningDistance",
+              "cyclingDistance",
+              "activeEnergy",
+              "basalEnergy",
+              "exerciseTime",
+              "flightsClimbed",
+              "workouts",
+              "heartRate",
+              "restingHeartRate",
+              "walkingHeartRate",
+              "hrv",
+              "oxygenSaturation",
+              "respiratoryRate",
+              "systolicPressure",
+              "diastolicPressure",
+              "vo2Max",
+              "sleep",
+              "weight",
+              "bodyFat",
+              "bmi",
+              "leanBodyMass",
+              "height",
+              "waist",
+              "bodyTemperature",
+              "bloodGlucose",
+              "dietaryEnergy",
+              "protein",
+              "carbohydrates",
+              "fat",
+              "water"
+            ]
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "value": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "categoryCode": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "sourceName": {
+            "type": "string"
+          },
+          "sourceBundleIdentifier": {
+            "type": "string"
+          },
+          "workoutDurationSeconds": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "required": [
+          "id",
+          "metric",
+          "startDate",
+          "endDate",
+          "sourceName",
+          "sourceBundleIdentifier"
+        ]
+      }
+    }
+  }
+}
