@@ -66,7 +66,7 @@ final class ExportTests: XCTestCase {
         XCTAssertEqual(Set(HealthMetric.allCases.map(\.rawValue)).count, HealthMetric.allCases.count)
     }
     func testExpandedCatalog() throws {
-        XCTAssertEqual(HealthMetric.allCases.count, 193)
+        XCTAssertEqual(HealthMetric.allCases.count, 192)
         XCTAssertTrue(Set(HealthMetric.available).isSuperset(of: HealthMetric.suggested))
         XCTAssertTrue(HealthMetric.available.contains(.runningSpeed))
         XCTAssertTrue(HealthMetric.available.contains(.dietaryVitaminD))

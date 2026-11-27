@@ -4,7 +4,7 @@ HealthBridge, Apple HealthKit'ten kullanıcının seçtiği sağlık kayıtları
 
 ## Özellikler
 
-- 193 veri türüne kadar (iOS sürümüne bağlı): aktivite, kalp/solunum, uyku, vücut, beslenme, hareketlilik, işitme, testler, çevre, ruh hali, kişisel bakım, üreme sağlığı ve belirtiler.
+- 192 veri türüne kadar (iOS sürümüne bağlı): aktivite, kalp/solunum, uyku, vücut, beslenme, hareketlilik, işitme, testler, çevre, ruh hali, kişisel bakım, üreme sağlığı ve belirtiler.
 - Seçilebilir tarih aralığı ve veri kategorileri; 7/30/90 günlük kısayollar.
 - Apple Sağlık'taki kaynak adı ve kaynak bundle ID'si, benzersiz kayıt UUID'si, başlangıç/bitiş zamanı.
 - Okuma izinlerini sadece seçilen türler için isteme; Sağlık verisini değiştirmeme.
@@ -45,7 +45,7 @@ iPhone'a uzaktan kurulum için ayrı bir imzalı build/Archive ve TestFlight da�
 
 Apple, okuma izninin reddedildiğini uygulamaya bildirmez. Kayıt sayısı 0 ise veri bulunmuyor, izin verilmemiş ya da geçmiş veri erişimi kısıtlanmış olabilir. Uygulama bunu izin verilmiş/yok şeklinde kesin olarak sınıflandırmaz.
 
-### Desteklenen türler (193'e kadar)
+### Desteklenen türler (192'ye kadar)
 
 Tam katalog: [HealthMetric.swift](HealthBridge/Models/HealthMetric.swift). iOS 18+ türleri (ör. ruh hali, efor skoru ve uykuda solunum kesintileri) ve iOS 26.2+ hipertansiyon bildirimi daha eski sürümlerde seçim listesine eklenmez. Huawei ve Xiaomi gibi kaynakların **Apple Sağlık'a yazdığı** kayıtlar alınabilir; kaynakların kendi kapalı veritabanları okunamaz.
 

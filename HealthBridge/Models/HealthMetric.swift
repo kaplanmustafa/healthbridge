@@ -61,7 +61,7 @@ enum HealthMetric: String, CaseIterable, Identifiable, Hashable {
     case dietaryVitaminB6, dietaryVitaminC, dietaryVitaminD, dietaryVitaminE, dietaryVitaminK
     case dietaryZinc, appleStandHour, lowCardioFitnessEvent, lowHeartRateEvent, highHeartRateEvent
     case irregularHeartRhythmEvent, hypertensionEvent, appleWalkingSteadinessEvent, environmentalAudioExposureEvent, headphoneAudioExposureEvent
-    case audioExposureEvent, mindfulSession, toothbrushingEvent, handwashingEvent, menstrualFlow
+    case mindfulSession, toothbrushingEvent, handwashingEvent, menstrualFlow
     case intermenstrualBleeding, infrequentMenstrualCycles, irregularMenstrualCycles, persistentIntermenstrualBleeding, prolongedMenstrualPeriods
     case cervicalMucusQuality, ovulationTestResult, progesteroneTestResult, sexualActivity, contraceptive
     case pregnancy, pregnancyTestResult, lactation, abdominalCramps, bloating
@@ -87,7 +87,7 @@ enum HealthMetric: String, CaseIterable, Identifiable, Hashable {
         case .runningGroundContactTime, .runningPower, .runningSpeed, .runningStrideLength, .runningVerticalOscillation, .pushCount, .distanceWheelchair, .swimmingStrokeCount, .distanceSwimming, .distanceDownhillSnowSports, .nikeFuel, .appleMoveTime, .appleStandTime, .cyclingCadence, .cyclingFunctionalThresholdPower, .cyclingPower, .cyclingSpeed, .physicalEffort, .distanceCrossCountrySkiing, .crossCountrySkiingSpeed, .distancePaddleSports, .distanceRowing, .distanceSkatingSports, .paddleSportsSpeed, .rowingSpeed, .estimatedWorkoutEffortScore, .workoutEffortScore, .appleStandHour, .workoutRoutes: return .activity
         case .basalBodyTemperature: return .body
         case .appleSleepingWristTemperature, .appleSleepingBreathingDisturbances: return .sleep
-        case .environmentalAudioExposure, .environmentalSoundReduction, .headphoneAudioExposure, .environmentalAudioExposureEvent, .headphoneAudioExposureEvent, .audioExposureEvent, .audiograms: return .hearing
+        case .environmentalAudioExposure, .environmentalSoundReduction, .headphoneAudioExposure, .environmentalAudioExposureEvent, .headphoneAudioExposureEvent, .audiograms: return .hearing
         case .heartRateRecoveryOneMinute, .atrialFibrillationBurden, .lowCardioFitnessEvent, .lowHeartRateEvent, .highHeartRateEvent, .irregularHeartRhythmEvent, .hypertensionEvent, .electrocardiograms, .heartbeatSeries: return .heart
         case .electrodermalActivity, .forcedExpiratoryVolume1, .forcedVitalCapacity, .inhalerUsage, .insulinDelivery, .numberOfTimesFallen, .peakExpiratoryFlowRate, .peripheralPerfusionIndex: return .lab
         case .appleWalkingSteadiness, .sixMinuteWalkTestDistance, .walkingSpeed, .walkingStepLength, .walkingAsymmetryPercentage, .walkingDoubleSupportPercentage, .stairAscentSpeed, .stairDescentSpeed, .appleWalkingSteadinessEvent: return .mobility
@@ -233,7 +233,6 @@ enum HealthMetric: String, CaseIterable, Identifiable, Hashable {
         case .appleWalkingSteadinessEvent: return "Yürüme dengesi bildirimi"
         case .environmentalAudioExposureEvent: return "Ortam gürültü bildirimi"
         case .headphoneAudioExposureEvent: return "Kulaklık ses bildirimi"
-        case .audioExposureEvent: return "Ses maruziyeti bildirimi (eski)"
         case .mindfulSession: return "Farkındalık oturumu"
         case .toothbrushingEvent: return "Diş fırçalama"
         case .handwashingEvent: return "El yıkama"
@@ -456,7 +455,6 @@ enum HealthMetric: String, CaseIterable, Identifiable, Hashable {
         case .appleWalkingSteadinessEvent: return .appleWalkingSteadinessEvent
         case .environmentalAudioExposureEvent: return .environmentalAudioExposureEvent
         case .headphoneAudioExposureEvent: return .headphoneAudioExposureEvent
-        case .audioExposureEvent: return .audioExposureEvent
         case .mindfulSession: return .mindfulSession
         case .toothbrushingEvent: return .toothbrushingEvent
         case .handwashingEvent: return .handwashingEvent
