@@ -83,7 +83,7 @@ struct APIClient {
         request.httpMethod = "POST"
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.setValue("application/json", forHTTPHeaderField: "Accept")
-        request.setValue("1", forHTTPHeaderField: "X-HealthBridge-Schema")
+        request.setValue(String(export.schemaVersion), forHTTPHeaderField: "X-HealthBridge-Schema")
         let normalizedToken = token.trimmingCharacters(in: .whitespacesAndNewlines)
         if !normalizedToken.isEmpty {
             guard normalizedToken.utf8.allSatisfy({ $0 >= 33 && $0 <= 126 }) else { throw HealthBridgeError.invalidToken }

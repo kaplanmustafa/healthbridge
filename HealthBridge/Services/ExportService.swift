@@ -13,20 +13,24 @@ enum ExportService {
         return try encoder.encode(export)
     }
 
-    static func csv(_ export: HealthExport) -> Data {
+    static func csv(_ export: HealthExport) throws -> Data {
         let formatter = ISO8601DateFormatter()
         formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
         let columns = ["id", "metric", "startDate", "endDate", "value", "unit", "category",
-                       "categoryCode", "sourceName", "sourceBundleIdentifier", "workoutDurationSeconds"]
+                       "categoryCode", "sourceName", "sourceBundleIdentifier", "workoutDurationSeconds", "detailsJSON"]
+        let detailEncoder = JSONEncoder()
+        detailEncoder.outputFormatting = [.sortedKeys]
         var lines = [columns.joined(separator: ",")]
         lines.reserveCapacity(export.records.count + 1)
         for record in export.records {
+            let detailJSON = try record.details.map { String(decoding: try detailEncoder.encode($0), as: UTF8.self) } ?? ""
             let fields = [
                 record.id.uuidString, record.metric, formatter.string(from: record.startDate),
                 formatter.string(from: record.endDate), record.value.map { String($0) } ?? "",
                 record.unit ?? "", record.category ?? "", record.categoryCode.map { String($0) } ?? "",
                 safeSpreadsheetText(record.sourceName), safeSpreadsheetText(record.sourceBundleIdentifier),
-                record.workoutDurationSeconds.map { String($0) } ?? ""
+                record.workoutDurationSeconds.map { String($0) } ?? "",
+                detailJSON
             ]
             lines.append(fields.map(csvField).joined(separator: ","))
         }
@@ -53,7 +57,7 @@ enum ExportService {
                                                 attributes: [.protectionKey: FileProtectionType.complete])
         let filename = "healthbridge-\(UUID().uuidString.prefix(8)).\(format.fileExtension)"
         let file = directory.appendingPathComponent(filename)
-        let data = format == .json ? try json(export) : csv(export)
+        let data = format == .json ? try json(export) : try csv(export)
         try data.write(to: file, options: [.atomic, .completeFileProtection])
         return file
     }

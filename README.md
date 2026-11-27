@@ -4,7 +4,7 @@ HealthBridge, Apple HealthKit'ten kullanıcının seçtiği sağlık kayıtları
 
 ## Özellikler
 
-- 31 veri türü: aktivite, kalp/solunum, uyku, vücut ve beslenme.
+- 193 veri türüne kadar (iOS sürümüne bağlı): aktivite, kalp/solunum, uyku, vücut, beslenme, hareketlilik, işitme, testler, çevre, ruh hali, kişisel bakım, üreme sağlığı ve belirtiler.
 - Seçilebilir tarih aralığı ve veri kategorileri; 7/30/90 günlük kısayollar.
 - Apple Sağlık'taki kaynak adı ve kaynak bundle ID'si, benzersiz kayıt UUID'si, başlangıç/bitiş zamanı.
 - Okuma izinlerini sadece seçilen türler için isteme; Sağlık verisini değiştirmeme.
@@ -33,7 +33,7 @@ Not: SwiftUI ekranlarını simulator'da inceleyebilirsin ancak kendi gerçek sa�
 
 Cloud kaynak kodu: https://github.com/kaplanmustafa/healthbridge. Depo sahibinin onayıyla public yapılandırılmıştır. Gerçek sağlık verisi veya Apple anahtarı commit etme. `.github/workflows/ios-ci.yml` macOS runner üzerinde imzasız iOS Simulator build ve XCTest çalıştırır. İki bulut derlemesi başarılıdır; son çalıştırmada Xcode 26.6 ile 7/7 XCTest başarılı olmuştur: [CI sonucu](https://github.com/kaplanmustafa/healthbridge/actions/runs/45880654306). CI simulator testleri gerçek cihaz HealthKit testlerinin yerine geçmez.
 
-iPhone'a uzaktan kurulum için ayrı bir imzalı build/Archive ve TestFlight dağıtımı gereklidir. [Mac olmadan TestFlight akışı](docs/CLOUD-TESTFLIGHT.md) hazırlanmıştır. Bir Apple Developer hesabın olduğu için kendi App ID, Team, dağıtım sertifikası ve provisioning profile ile ilerleyebilirsin. Internal TestFlight workflow ve yalnızca main dalına izin veren GitHub environment hazırlanmıştır. Apple oturum açma başarılı olmadığı için App ID, imzalama anahtarları ve TestFlight yüklemesi henüz tamamlanmamıştır; proje henüz imzalı IPA değildir.
+iPhone'a uzaktan kurulum için ayrı bir imzalı build/Archive ve TestFlight dağıtımı gereklidir. [Mac olmadan TestFlight akışı](docs/CLOUD-TESTFLIGHT.md) hazırlanmıştır. Bir Apple Developer hesabın olduğu için kendi App ID, Team, dağıtım sertifikası ve provisioning profile ile ilerleyebilirsin. Internal TestFlight workflow ve yalnızca main dalına izin veren GitHub environment hazırlanmıştır. 1.0 (3) imzalı olarak yüklenmiş ve özel Internal TestFlight grubunda kurulmuştur.
 
 ## 3. Kullanım
 
@@ -45,17 +45,13 @@ iPhone'a uzaktan kurulum için ayrı bir imzalı build/Archive ve TestFlight da�
 
 Apple, okuma izninin reddedildiğini uygulamaya bildirmez. Kayıt sayısı 0 ise veri bulunmuyor, izin verilmemiş ya da geçmiş veri erişimi kısıtlanmış olabilir. Uygulama bunu izin verilmiş/yok şeklinde kesin olarak sınıflandırmaz.
 
-### Desteklenen türler (31)
+### Desteklenen türler (193'e kadar)
 
-| Grup | Türler |
-|---|---|
-| Aktivite (8) | Adım, yürüyüş/koşu mesafesi, bisiklet mesafesi, aktif enerji, dinlenme enerjisi, egzersiz süresi, çıkılan kat, antrenman |
-| Kalp/solunum (9) | Nabız, dinlenik nabız, yürüyüş nabzı, HRV, SpO₂, solunum, sistolik/diyastolik tansiyon, VO₂ maks |
-| Uyku (1) | Yatakta, uyanık ve uyku evreleri |
-| Vücut (8) | Kilo, yağ oranı, VKİ, yağsız kütle, boy, bel çevresi, sıcaklık, kan şekeri |
-| Beslenme (5) | Enerji, protein, karbonhidrat, yağ, su |
+Tam katalog: [HealthMetric.swift](HealthBridge/Models/HealthMetric.swift). iOS 18+ türleri (ör. ruh hali, efor skoru ve uykuda solunum kesintileri) ve iOS 26.2+ hipertansiyon bildirimi daha eski sürümlerde seçim listesine eklenmez. Huawei ve Xiaomi gibi kaynakların **Apple Sağlık'a yazdığı** kayıtlar alınabilir; kaynakların kendi kapalı veritabanları okunamaz.
 
-Huawei Health, Xiaomi Home gibi uygulamaların Apple Sağlık'a gerçekten yazdığı ve erişimine izin verilen kayıtlar okunabilir; bu uygulamaların kendi kapalı veritabanlarındaki veriler alınmaz. Apple Sağlık desteklemeyen özel stres ölçümleri, EKG dalga formları, klinik kayıtlar, rota koordinatları, ilaçlar ve diğer genişletilmiş HealthKit türleri bu sürümde yoktur.
+Sayısal ve kategori kayıtlarının yanı sıra EKG voltaj zaman serileri, ham kalp atım zamanları, antrenman GPS rotaları, odyogram, ruh hali etiketleri ve antrenman toplamları dahildir. GPS konumu, EKG ve diğer hassas kayıtlar seçime ve sistem iznine tabidir; varsayılan önerilen seçim bunları içermez.
+
+Klinik FHIR belgeleri, reçeteler, ilaç listeleri/doz olayları, aktivite halkası hedefleri ve tarih aralığına bağlı olmayan profil bilgileri bu sürümde aktarılmaz. Her Apple Sağlık ekranı için üçüncü taraf uygulamalara açık bir API bulunmayabilir.
 
 ### Veri doğruluğu
 
@@ -64,12 +60,12 @@ Huawei Health, Xiaomi Home gibi uygulamaların Apple Sağlık'a gerçekten yazd�
 - Bir aralıkla örtüşen kayıtlar başlangıç/bitişleri kırpılmadan aktarılır; günlük toplama hedef uygulamada yapılmalıdır.
 - Yüzde değerleri 0–100 ölçeğine dönüştürülür. Kilo kg, mesafe km, nabız bpm, HRV ms gibi birimler her kayıtta belirtilir.
 - Uyku ve antrenmanda kategori kodu, antrenmanda gerçek aktif süre alanı korunur. Antrenman rotası, ayrıntılı antrenman istatistiği ve tansiyon korelasyon grubu ilk sürümde yoktur.
-- 100.000 kayıt sınırı aşıldığında işlem hata verir; daha küçük tarih aralıklarına böl. Sessiz kırpma yapılmaz.
+- 100.000 kayıt veya 200.000 seri noktası sınırı aşıldığında işlem hata verir; daha küçük tarih aralıklarına böl. Sessiz kırpma yapılmaz.
 - Aynı kayıt yeniden gönderilebilir; alıcı UUID üzerinden idempotent içe aktarım yapmalıdır.
 
 ## 4. API entegrasyonu
 
-[API sözleşmesi](docs/API.md), [JSON Schema](docs/healthbridge-v1.schema.json) ve [örnek veri](docs/example-export.json) dosyalarına bak. Her hedefin API formatı farklıdır; kabul edilmeyen şemalarda bir dönüştürücü/adapter gerekir. OAuth gerektiren servisler için servis özelinde entegrasyon yazılmalıdır. Bu sürüm genel OAuth, otomatik arka plan senkronizasyonu veya hedefe özel connector içermez.
+[API sözleşmesi](docs/API.md), [JSON Schema](docs/healthbridge-v2.schema.json) ve [örnek veri](docs/example-export.json) dosyalarına bak. Her hedefin API formatı farklıdır; kabul edilmeyen şemalarda bir dönüştürücü/adapter gerekir. OAuth gerektiren servisler için servis özelinde entegrasyon yazılmalıdır. Bu sürüm genel OAuth, otomatik arka plan senkronizasyonu veya hedefe özel connector içermez.
 
 ## 5. Gizlilik ve App Store
 

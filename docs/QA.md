@@ -37,3 +37,8 @@ Proje yapılandırması ve kaynak tutarlılığı kontrol edilmiş, GitHub Actio
 - [ ] Yayıncı gizlilik politikasını tamamladı ve geçerli politika URL'si sağlandı.
 - [ ] App Privacy, HealthKit ve desteklenen hedef hizmetler App Review kurallarına göre incelendi.
 - [ ] İmzalı arşiv ve TestFlight gerçek cihaz testleri tamamlandı.
+
+- [ ] iOS 17 ve daha yeni cihazlarda katalog kullanılabilir türe göre filtreleniyor.
+- [ ] Gerçek cihazda EKG/rota/odyogram/ruh hali kayıtları mevcutsa JSON ayrıntıları doğrulanıyor.
+- [ ] 200.000 seri noktası sınırında sessiz kesme yapılmıyor.
+- [ ] Başarısız tür sorguları uyarıda ve JSON readIssues alanında gösteriliyor.

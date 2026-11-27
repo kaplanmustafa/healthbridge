@@ -43,7 +43,7 @@ final class ExportViewModel: ObservableObject {
     var ready: Bool { export != nil && recordCount > 0 && !busy }
 
     func selectAll(in group: MetricGroup) {
-        let types = Set(HealthMetric.allCases.filter { $0.group == group })
+        let types = Set(HealthMetric.available.filter { $0.group == group })
         if types.isSubset(of: selected) { selected.subtract(types) }
         else { selected.formUnion(types) }
     }

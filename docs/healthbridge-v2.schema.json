@@ -1,0 +1,578 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "HealthBridge v2",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "exportedAt",
+    "rangeStart",
+    "rangeEndExclusive",
+    "selectedMetrics",
+    "timeZone",
+    "records"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": 2
+    },
+    "exportedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "rangeStart": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "rangeEndExclusive": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "timeZone": {
+      "type": "string"
+    },
+    "selectedMetrics": {
+      "type": "array",
+      "items": {
+        "enum": [
+          "steps",
+          "walkingRunningDistance",
+          "cyclingDistance",
+          "activeEnergy",
+          "basalEnergy",
+          "exerciseTime",
+          "flightsClimbed",
+          "workouts",
+          "heartRate",
+          "restingHeartRate",
+          "walkingHeartRate",
+          "hrv",
+          "oxygenSaturation",
+          "respiratoryRate",
+          "systolicPressure",
+          "diastolicPressure",
+          "vo2Max",
+          "sleep",
+          "weight",
+          "bodyFat",
+          "bmi",
+          "leanBodyMass",
+          "height",
+          "waist",
+          "bodyTemperature",
+          "bloodGlucose",
+          "dietaryEnergy",
+          "protein",
+          "carbohydrates",
+          "fat",
+          "water",
+          "runningGroundContactTime",
+          "runningPower",
+          "runningSpeed",
+          "runningStrideLength",
+          "runningVerticalOscillation",
+          "pushCount",
+          "distanceWheelchair",
+          "swimmingStrokeCount",
+          "distanceSwimming",
+          "distanceDownhillSnowSports",
+          "nikeFuel",
+          "appleMoveTime",
+          "appleStandTime",
+          "cyclingCadence",
+          "cyclingFunctionalThresholdPower",
+          "cyclingPower",
+          "cyclingSpeed",
+          "physicalEffort",
+          "distanceCrossCountrySkiing",
+          "crossCountrySkiingSpeed",
+          "distancePaddleSports",
+          "distanceRowing",
+          "distanceSkatingSports",
+          "paddleSportsSpeed",
+          "rowingSpeed",
+          "estimatedWorkoutEffortScore",
+          "workoutEffortScore",
+          "basalBodyTemperature",
+          "appleSleepingWristTemperature",
+          "appleSleepingBreathingDisturbances",
+          "environmentalAudioExposure",
+          "environmentalSoundReduction",
+          "headphoneAudioExposure",
+          "heartRateRecoveryOneMinute",
+          "atrialFibrillationBurden",
+          "electrodermalActivity",
+          "forcedExpiratoryVolume1",
+          "forcedVitalCapacity",
+          "inhalerUsage",
+          "insulinDelivery",
+          "numberOfTimesFallen",
+          "peakExpiratoryFlowRate",
+          "peripheralPerfusionIndex",
+          "appleWalkingSteadiness",
+          "sixMinuteWalkTestDistance",
+          "walkingSpeed",
+          "walkingStepLength",
+          "walkingAsymmetryPercentage",
+          "walkingDoubleSupportPercentage",
+          "stairAscentSpeed",
+          "stairDescentSpeed",
+          "timeInDaylight",
+          "uvExposure",
+          "underwaterDepth",
+          "waterTemperature",
+          "bloodAlcoholContent",
+          "numberOfAlcoholicBeverages",
+          "dietaryBiotin",
+          "dietaryCaffeine",
+          "dietaryCalcium",
+          "dietaryChloride",
+          "dietaryCholesterol",
+          "dietaryChromium",
+          "dietaryCopper",
+          "dietaryFatMonounsaturated",
+          "dietaryFatPolyunsaturated",
+          "dietaryFatSaturated",
+          "dietaryFiber",
+          "dietaryFolate",
+          "dietaryIodine",
+          "dietaryIron",
+          "dietaryMagnesium",
+          "dietaryManganese",
+          "dietaryMolybdenum",
+          "dietaryNiacin",
+          "dietaryPantothenicAcid",
+          "dietaryPhosphorus",
+          "dietaryPotassium",
+          "dietaryRiboflavin",
+          "dietarySelenium",
+          "dietarySodium",
+          "dietarySugar",
+          "dietaryThiamin",
+          "dietaryVitaminA",
+          "dietaryVitaminB12",
+          "dietaryVitaminB6",
+          "dietaryVitaminC",
+          "dietaryVitaminD",
+          "dietaryVitaminE",
+          "dietaryVitaminK",
+          "dietaryZinc",
+          "appleStandHour",
+          "lowCardioFitnessEvent",
+          "lowHeartRateEvent",
+          "highHeartRateEvent",
+          "irregularHeartRhythmEvent",
+          "hypertensionEvent",
+          "appleWalkingSteadinessEvent",
+          "environmentalAudioExposureEvent",
+          "headphoneAudioExposureEvent",
+          "audioExposureEvent",
+          "mindfulSession",
+          "toothbrushingEvent",
+          "handwashingEvent",
+          "menstrualFlow",
+          "intermenstrualBleeding",
+          "infrequentMenstrualCycles",
+          "irregularMenstrualCycles",
+          "persistentIntermenstrualBleeding",
+          "prolongedMenstrualPeriods",
+          "cervicalMucusQuality",
+          "ovulationTestResult",
+          "progesteroneTestResult",
+          "sexualActivity",
+          "contraceptive",
+          "pregnancy",
+          "pregnancyTestResult",
+          "lactation",
+          "abdominalCramps",
+          "bloating",
+          "constipation",
+          "diarrhea",
+          "heartburn",
+          "nausea",
+          "vomiting",
+          "appetiteChanges",
+          "chills",
+          "dizziness",
+          "fainting",
+          "fatigue",
+          "fever",
+          "generalizedBodyAche",
+          "hotFlashes",
+          "chestTightnessOrPain",
+          "coughing",
+          "rapidPoundingOrFlutteringHeartbeat",
+          "shortnessOfBreath",
+          "skippedHeartbeat",
+          "wheezing",
+          "lowerBackPain",
+          "headache",
+          "memoryLapse",
+          "moodChanges",
+          "lossOfSmell",
+          "lossOfTaste",
+          "runnyNose",
+          "soreThroat",
+          "sinusCongestion",
+          "breastPain",
+          "pelvicPain",
+          "vaginalDryness",
+          "acne",
+          "drySkin",
+          "hairLoss",
+          "nightSweats",
+          "sleepChanges",
+          "bladderIncontinence",
+          "electrocardiograms",
+          "heartbeatSeries",
+          "workoutRoutes",
+          "audiograms",
+          "stateOfMind"
+        ]
+      },
+      "uniqueItems": true,
+      "minItems": 1
+    },
+    "records": {
+      "type": "array",
+      "maxItems": 100000,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "metric": {
+            "enum": [
+              "steps",
+              "walkingRunningDistance",
+              "cyclingDistance",
+              "activeEnergy",
+              "basalEnergy",
+              "exerciseTime",
+              "flightsClimbed",
+              "workouts",
+              "heartRate",
+              "restingHeartRate",
+              "walkingHeartRate",
+              "hrv",
+              "oxygenSaturation",
+              "respiratoryRate",
+              "systolicPressure",
+              "diastolicPressure",
+              "vo2Max",
+              "sleep",
+              "weight",
+              "bodyFat",
+              "bmi",
+              "leanBodyMass",
+              "height",
+              "waist",
+              "bodyTemperature",
+              "bloodGlucose",
+              "dietaryEnergy",
+              "protein",
+              "carbohydrates",
+              "fat",
+              "water",
+              "runningGroundContactTime",
+              "runningPower",
+              "runningSpeed",
+              "runningStrideLength",
+              "runningVerticalOscillation",
+              "pushCount",
+              "distanceWheelchair",
+              "swimmingStrokeCount",
+              "distanceSwimming",
+              "distanceDownhillSnowSports",
+              "nikeFuel",
+              "appleMoveTime",
+              "appleStandTime",
+              "cyclingCadence",
+              "cyclingFunctionalThresholdPower",
+              "cyclingPower",
+              "cyclingSpeed",
+              "physicalEffort",
+              "distanceCrossCountrySkiing",
+              "crossCountrySkiingSpeed",
+              "distancePaddleSports",
+              "distanceRowing",
+              "distanceSkatingSports",
+              "paddleSportsSpeed",
+              "rowingSpeed",
+              "estimatedWorkoutEffortScore",
+              "workoutEffortScore",
+              "basalBodyTemperature",
+              "appleSleepingWristTemperature",
+              "appleSleepingBreathingDisturbances",
+              "environmentalAudioExposure",
+              "environmentalSoundReduction",
+              "headphoneAudioExposure",
+              "heartRateRecoveryOneMinute",
+              "atrialFibrillationBurden",
+              "electrodermalActivity",
+              "forcedExpiratoryVolume1",
+              "forcedVitalCapacity",
+              "inhalerUsage",
+              "insulinDelivery",
+              "numberOfTimesFallen",
+              "peakExpiratoryFlowRate",
+              "peripheralPerfusionIndex",
+              "appleWalkingSteadiness",
+              "sixMinuteWalkTestDistance",
+              "walkingSpeed",
+              "walkingStepLength",
+              "walkingAsymmetryPercentage",
+              "walkingDoubleSupportPercentage",
+              "stairAscentSpeed",
+              "stairDescentSpeed",
+              "timeInDaylight",
+              "uvExposure",
+              "underwaterDepth",
+              "waterTemperature",
+              "bloodAlcoholContent",
+              "numberOfAlcoholicBeverages",
+              "dietaryBiotin",
+              "dietaryCaffeine",
+              "dietaryCalcium",
+              "dietaryChloride",
+              "dietaryCholesterol",
+              "dietaryChromium",
+              "dietaryCopper",
+              "dietaryFatMonounsaturated",
+              "dietaryFatPolyunsaturated",
+              "dietaryFatSaturated",
+              "dietaryFiber",
+              "dietaryFolate",
+              "dietaryIodine",
+              "dietaryIron",
+              "dietaryMagnesium",
+              "dietaryManganese",
+              "dietaryMolybdenum",
+              "dietaryNiacin",
+              "dietaryPantothenicAcid",
+              "dietaryPhosphorus",
+              "dietaryPotassium",
+              "dietaryRiboflavin",
+              "dietarySelenium",
+              "dietarySodium",
+              "dietarySugar",
+              "dietaryThiamin",
+              "dietaryVitaminA",
+              "dietaryVitaminB12",
+              "dietaryVitaminB6",
+              "dietaryVitaminC",
+              "dietaryVitaminD",
+              "dietaryVitaminE",
+              "dietaryVitaminK",
+              "dietaryZinc",
+              "appleStandHour",
+              "lowCardioFitnessEvent",
+              "lowHeartRateEvent",
+              "highHeartRateEvent",
+              "irregularHeartRhythmEvent",
+              "hypertensionEvent",
+              "appleWalkingSteadinessEvent",
+              "environmentalAudioExposureEvent",
+              "headphoneAudioExposureEvent",
+              "audioExposureEvent",
+              "mindfulSession",
+              "toothbrushingEvent",
+              "handwashingEvent",
+              "menstrualFlow",
+              "intermenstrualBleeding",
+              "infrequentMenstrualCycles",
+              "irregularMenstrualCycles",
+              "persistentIntermenstrualBleeding",
+              "prolongedMenstrualPeriods",
+              "cervicalMucusQuality",
+              "ovulationTestResult",
+              "progesteroneTestResult",
+              "sexualActivity",
+              "contraceptive",
+              "pregnancy",
+              "pregnancyTestResult",
+              "lactation",
+              "abdominalCramps",
+              "bloating",
+              "constipation",
+              "diarrhea",
+              "heartburn",
+              "nausea",
+              "vomiting",
+              "appetiteChanges",
+              "chills",
+              "dizziness",
+              "fainting",
+              "fatigue",
+              "fever",
+              "generalizedBodyAche",
+              "hotFlashes",
+              "chestTightnessOrPain",
+              "coughing",
+              "rapidPoundingOrFlutteringHeartbeat",
+              "shortnessOfBreath",
+              "skippedHeartbeat",
+              "wheezing",
+              "lowerBackPain",
+              "headache",
+              "memoryLapse",
+              "moodChanges",
+              "lossOfSmell",
+              "lossOfTaste",
+              "runnyNose",
+              "soreThroat",
+              "sinusCongestion",
+              "breastPain",
+              "pelvicPain",
+              "vaginalDryness",
+              "acne",
+              "drySkin",
+              "hairLoss",
+              "nightSweats",
+              "sleepChanges",
+              "bladderIncontinence",
+              "electrocardiograms",
+              "heartbeatSeries",
+              "workoutRoutes",
+              "audiograms",
+              "stateOfMind"
+            ]
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "value": {
+            "type": "number"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "categoryCode": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "sourceName": {
+            "type": "string"
+          },
+          "sourceBundleIdentifier": {
+            "type": "string"
+          },
+          "workoutDurationSeconds": {
+            "type": "number",
+            "minimum": 0
+          },
+          "details": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "measurements": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "number"
+                }
+              },
+              "codes": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer"
+                }
+              },
+              "codeLists": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                }
+              },
+              "text": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "string"
+                }
+              },
+              "points": {
+                "type": "array",
+                "maxItems": 200000,
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "offsetSeconds"
+                  ],
+                  "additionalProperties": false,
+                  "properties": {
+                    "offsetSeconds": {
+                      "type": "number"
+                    },
+                    "latitude": {
+                      "type": "number"
+                    },
+                    "longitude": {
+                      "type": "number"
+                    },
+                    "altitudeMeters": {
+                      "type": "number"
+                    },
+                    "horizontalAccuracyMeters": {
+                      "type": "number"
+                    },
+                    "verticalAccuracyMeters": {
+                      "type": "number"
+                    },
+                    "speedMetersPerSecond": {
+                      "type": "number"
+                    },
+                    "courseDegrees": {
+                      "type": "number"
+                    },
+                    "microvolts": {
+                      "type": "number"
+                    },
+                    "frequencyHz": {
+                      "type": "number"
+                    },
+                    "leftEarDecibelsHL": {
+                      "type": "number"
+                    },
+                    "rightEarDecibelsHL": {
+                      "type": "number"
+                    },
+                    "precededByGap": {
+                      "type": "boolean"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "id",
+          "metric",
+          "startDate",
+          "endDate",
+          "sourceName",
+          "sourceBundleIdentifier"
+        ]
+      }
+    },
+    "readIssues": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  }
+}

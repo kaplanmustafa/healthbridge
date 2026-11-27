@@ -84,6 +84,7 @@ private struct ExportScreen: View {
     @ObservedObject var model: ExportViewModel
     let openIntegration: () -> Void
     private let ranges = [7, 30, 90]
+    @State private var showEmptyMetrics = false
 
     var body: some View {
         ScrollView {
@@ -159,15 +160,15 @@ private struct ExportScreen: View {
             HStack {
                 sectionTitle("Veri türleri", icon: "heart.text.clipboard")
                 Spacer()
-                Button(model.selected.count == HealthMetric.allCases.count ? "Temizle" : "Tümü") {
-                    model.selected = model.selected.count == HealthMetric.allCases.count ? [] : Set(HealthMetric.allCases)
+                Button(model.selected.count == HealthMetric.available.count ? "Temizle" : "Tümü (\(HealthMetric.available.count))") {
+                    model.selected = model.selected.count == HealthMetric.available.count ? [] : Set(HealthMetric.available)
                 }.font(.subheadline.weight(.medium))
             }
             ForEach(MetricGroup.allCases) { group in
                 MetricGroupView(group: group, model: model)
                 if group != MetricGroup.allCases.last { Divider() }
             }
-            Text("Sadece seçilen türler için okuma izni istenir. Huawei ve Xiaomi gibi kaynaklar da Apple Sağlık'a yazdıkları kayıtlarla dahil olur.")
+            Text("Sadece seçilen ve iOS sürümünün desteklediği türler için okuma izni istenir. Huawei ve Xiaomi kayıtları da dahildir. GPS rotaları ve belirtiler gibi hassas türleri yalnızca paylaşmak istiyorsan seç.")
                 .font(.caption).foregroundStyle(.secondary)
         }
         .cardStyle()
@@ -207,13 +208,26 @@ private struct ExportScreen: View {
                     .font(.caption)
                     .disabled(model.busy)
             }
-            ForEach(HealthMetric.allCases.filter { export.selectedMetrics.contains($0.rawValue) }) { metric in
+            ForEach(HealthMetric.allCases.filter { export.selectedMetrics.contains($0.rawValue) && (showEmptyMetrics || (counts[$0.rawValue] ?? 0) > 0) }) { metric in
                 HStack {
                     Text(metric.title).font(.subheadline)
                     Spacer()
                     Text((counts[metric.rawValue] ?? 0).formatted())
                         .font(.subheadline.monospacedDigit())
                         .foregroundStyle(.secondary)
+                }
+            }
+            let emptyCount = export.selectedMetrics.filter { (counts[$0] ?? 0) == 0 }.count
+            if emptyCount > 0 {
+                Button(showEmptyMetrics ? "Boş türleri gizle" : "Kaydı olmayan \(emptyCount) türü göster") {
+                    showEmptyMetrics.toggle()
+                }.font(.caption.weight(.medium))
+            }
+            if let issues = export.readIssues, !issues.isEmpty {
+                Label("\(issues.count) tür okunamadı; bu türler aktarılmadı.", systemImage: "exclamationmark.triangle.fill")
+                    .font(.subheadline.weight(.semibold)).foregroundStyle(.orange)
+                ForEach(HealthMetric.available.filter { issues[$0.rawValue] != nil }) { metric in
+                    Text(metric.title).font(.caption).foregroundStyle(.secondary)
                 }
             }
             Text("Ham kayıtlardır; farklı kaynakların örtüşen ölçümleri korunur. 0 kayıt, ölçüm bulunmadığı veya okuma izni verilmediği anlamına gelebilir.")
@@ -225,6 +239,10 @@ private struct ExportScreen: View {
             .pickerStyle(.segmented)
             .disabled(model.busy)
             Text(model.format.detail).font(.caption).foregroundStyle(.secondary)
+            if model.format == .csv, export.records.contains(where: { $0.details?.points != nil }) {
+                Text("EKG, rota ve diğer seri verileri için JSON önerilir; bazı tablo uygulamaları uzun hücreleri kısaltabilir.")
+                    .font(.caption).foregroundStyle(.secondary)
+            }
 
             Button { model.makeShareFile() } label: {
                 Label("Dosyayı paylaş", systemImage: "square.and.arrow.up")
@@ -252,7 +270,7 @@ private struct MetricGroupView: View {
     let group: MetricGroup
     @ObservedObject var model: ExportViewModel
     @State private var expanded = false
-    private var metrics: [HealthMetric] { HealthMetric.allCases.filter { $0.group == group } }
+    private var metrics: [HealthMetric] { HealthMetric.available.filter { $0.group == group } }
     private var count: Int { metrics.filter { model.selected.contains($0) }.count }
 
     var body: some View {
@@ -418,7 +436,7 @@ private struct PrivacyScreen: View {
                         .font(.subheadline)
                     Text("API aracında HTTPS ve standart sistem güven doğrulaması kullanılır; yönlendirmeler reddedilir. Bağlantı URL'si cihaz ayarlarında, anahtar Keychain'de saklanır. Sağlık kayıtları iCloud'a veya uygulamaya ait bir veritabanına yazılmaz.")
                         .font(.subheadline)
-                    Text("Sürüm 1.0 • HealthBridge").font(.caption).foregroundStyle(.secondary)
+                    Text("Sürüm 1.1 • HealthBridge").font(.caption).foregroundStyle(.secondary)
                 }
                 .cardStyle()
             }
