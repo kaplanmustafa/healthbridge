@@ -14,6 +14,8 @@
   <key>LSRequiresIPhoneOS</key><true/>
   <key>NSHealthShareUsageDescription</key>
   <string>Seçtiğin Apple Sağlık kayıtlarını önizlemek, CSV/JSON olarak dışa aktarmak veya yalnızca onayladığın sağlık hizmetine göndermek için okuma izni gerekir.</string>
+  <key>NSHealthUpdateUsageDescription</key>
+  <string>HealthBridge, seçtiğin sağlık kayıtlarını önizlemek ve dışa aktarmak için Sağlık erişimini kullanır. Sağlık kayıtlarını güncellemez veya yeni kayıt yazmaz.</string>
   <key>UIApplicationSceneManifest</key><dict><key>UIApplicationSupportsMultipleScenes</key><false/></dict>
   <key>UILaunchScreen</key><dict/>
   <key>UISupportedInterfaceOrientations</key>
